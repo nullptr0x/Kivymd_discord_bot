@@ -7,7 +7,7 @@ from discord.ext import commands
 from res.kv_template import kivy, kivymd
 from patterns import str_patterns
 
-BOT = commands.Bot(command_prefix="$")
+BOT = commands.Bot(command_prefix="!")
 
 
 @BOT.listen('on_message')
