@@ -1,35 +1,42 @@
-import re
-import random
-
 import discord
 from typing import NoReturn
 from discord.ext import commands
 from res.kv_template import kivy, kivymd
-from patterns import str_patterns
 
-BOT = commands.Bot(command_prefix="!")
+BOT = commands.Bot(command_prefix="!", help_command=None)
 
 
 @BOT.listen('on_message')
 async def on_message(message):
     count = 0
-    for channel in message.author.guild.channels:
-        if str(channel.type) == "text":
-            for msg in await channel.history(limit=3).flatten():
-                if message.content == msg.content:
-                    count += 1
-            if count > 3:
-                await channel.delete_messages([discord.Object(id=message.id)])
-    if count > 3:
-        await message.author.kick(reason="Spam/scam")
+    # tokenized_msg = message.content.split()
+
+    # for channel in message.author.guild.channels:
+    #     if str(channel.type) == "text":
+    #         for msg in await channel.history(limit=3).flatten():
+    #             if message.content == msg.content:
+    #                 count += 1
+    #         if count > 3:
+    #             await channel.delete_messages([discord.Object(id=message.id)])
+    # if count > 3:
+    #     await message.author.kick(reason="Spam/scam")
+
+    if message.channel.category.name == "✅ AVAILABLE HELP CHANNELS":
+        if message.author != BOT.user:
+            await message.channel.edit(category=BOT.get_channel(941643482156662805))
+            await message.pin()
 
 
 @BOT.listen('on_ready')
 async def on_ready():
     print("Beep boop")
+    activity = discord.Game(name="!help", type=3)
+    await BOT.change_presence(activity=activity)
 
 
-@BOT.command(name="linkrules", help="pings the user and links the guidelines of asking questions")
+@BOT.command(name="linkrules", help="pings the user and links the guidelines of asking questions"
+                                    "Usages:"
+                                    "!linkrules <ping the member>")
 async def linkrules(ctx, member: discord.Member = None, flags: str = "") -> NoReturn:
     if not member:
         await ctx.message.reply("```\nlinkrules {Member}\n            ^^^\nargument member is missing```")
@@ -61,6 +68,51 @@ async def invite(ctx, server: str = "kivy"):
     else:
         await ctx.message.reply("Invite can only be one of \"Kivy\" or \"KivyMD\""
                                 " (case insensitive)")
+
+
+@commands.has_any_role("KivyMD Team", "Extension developers")
+@BOT.command(name="purge")
+async def purge(ctx, limit=3):
+    await ctx.channel.purge(limit=limit)
+
+
+@BOT.command(name="help")
+async def help(ctx):  # RIP python's builtin help function
+    help_msg = discord.Embed(title="Commands", color=0x808000)
+    help_msg.add_field(name="!linkrules <Member>",
+                       value="Links the rules for asking questions in this server by mentioning the user\n"
+                       "Flags:\n--no-del : prevents the bot from removing the command message.")
+
+    help_msg.add_field(name="!invite <server=\"Kivy\">",
+                       value="Sends the invite link of either kivy or kivymd server based on the second argument, "
+                       "defaults to Kivy")
+
+    help_msg.add_field(name="!kv_template", value="Returns the code of a minimal kivy app in case you too lazy to "
+                       "write it all, pass the '--md' flag to replace Kivy with Kivymd")
+
+    help_msg.set_thumbnail(url="https://kivymd.readthedocs.io/en/latest/_static/logo-kivymd.png")
+
+    help_msg.set_footer(text="Note that the angular brackets '<>' are just for demonstration, do not use them while "
+                             "running commands. Have a great day!")
+
+    await ctx.channel.send(embed=help_msg)
+
+
+@BOT.command(name="close")
+async def close(ctx):
+    available_help_channel_embed = discord.Embed(title="✅ This help channel is available!", color=0x00FF00)
+    available_help_channel_embed.add_field(name="Ask your question here to claim the channel",
+                                           value="Please be polite and respectful, try to share a minimal code, "
+                                           "explain what you expected to happen and what actually happened. Please "
+                                           "refer to our guidelines to ask for help for more information, "
+                                           "https://discord.com/channels/566880874789076992/618108815774056488/816265169880875018")
+
+    await ctx.channel.edit(category=BOT.get_channel(941643356872798208))
+    await ctx.channel.send(embed=available_help_channel_embed)
+
+    pinned_msgs = await ctx.channel.pins()
+    for msg in pinned_msgs:
+        await msg.unpin()
 
 
 BOT.run('OTMzNzI3MTk1OTg4MzYxMzQ2.YelvNw.RMUxhqVf4KPbOSy4mPboxw1qmLU')
