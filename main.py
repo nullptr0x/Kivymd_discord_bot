@@ -27,6 +27,11 @@ async def on_message(message):
             await message.pin()
 
 
+@BOT.listen("on_command_error")
+async def on_command_error(ctx, err):
+    await ctx.channel.send(f"```\n{err}\n```")
+
+
 @BOT.listen('on_ready')
 async def on_ready():
     print("Beep boop")
@@ -89,7 +94,7 @@ async def help(ctx):  # RIP python's builtin help function
 
     help_msg.add_field(name="!kv_template", value="Returns the code of a minimal kivy app in case you too lazy to "
                        "write it all, pass the '--md' flag to replace Kivy with Kivymd")
-    
+
     help_msg.add_field(name="!close", value="Closes the current question of the help channel and moves it to the "
                                             "available category")
 
