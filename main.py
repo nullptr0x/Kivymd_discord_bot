@@ -89,6 +89,9 @@ async def help(ctx):  # RIP python's builtin help function
 
     help_msg.add_field(name="!kv_template", value="Returns the code of a minimal kivy app in case you too lazy to "
                        "write it all, pass the '--md' flag to replace Kivy with Kivymd")
+    
+    help_msg.add_field(name="!close", value="Closes the current question of the help channel and moves it to the "
+                                            "available category")
 
     help_msg.set_thumbnail(url="https://kivymd.readthedocs.io/en/latest/_static/logo-kivymd.png")
 
