@@ -23,7 +23,7 @@ async def on_message(message):
 
     if message.channel.category.name == "✅ AVAILABLE HELP CHANNELS":
         if message.author != BOT.user:
-            await message.channel.edit(category=BOT.get_channel(941643482156662805))
+            await message.channel.edit(category=BOT.get_channel(941631930779172874))
             await message.pin()
 
 
@@ -107,7 +107,7 @@ async def close(ctx):
                                            "refer to our guidelines to ask for help for more information, "
                                            "https://discord.com/channels/566880874789076992/618108815774056488/816265169880875018")
 
-    await ctx.channel.edit(category=BOT.get_channel(941643356872798208))
+    await ctx.channel.edit(category=BOT.get_channel(941631710045564948))
     await ctx.channel.send(embed=available_help_channel_embed)
 
     pinned_msgs = await ctx.channel.pins()
