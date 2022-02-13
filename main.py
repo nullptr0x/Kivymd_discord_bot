@@ -10,19 +10,6 @@ BOT = commands.Bot(command_prefix="!", help_command=None)
 
 @BOT.listen('on_message')
 async def on_message(message):
-    count = 0
-    # tokenized_msg = message.content.split()
-
-    # for channel in message.author.guild.channels:
-    #     if str(channel.type) == "text":
-    #         for msg in await channel.history(limit=3).flatten():
-    #             if message.content == msg.content:
-    #                 count += 1
-    #         if count > 3:
-    #             await channel.delete_messages([discord.Object(id=message.id)])
-    # if count > 3:
-    #     await message.author.kick(reason="Spam/scam")
-
     if message.channel.category.name == "✅ AVAILABLE HELP CHANNELS":
         if message.author != BOT.user:
             await message.channel.edit(category=BOT.get_channel(941631930779172874))
@@ -129,11 +116,13 @@ async def close(ctx):
 
 
 @commands.has_any_role("Kivymd Team")
+@BOT.command(name="ban")
 async def ban(ctx, member: discord.Member, reason="no reason provided"):
     await member.ban(reason=reason)
 
 
 @commands.has_any_role("Kivymd Team")
+@BOT.command(name="kick")
 async def kick(ctx, member: discord.Member, reason="no reason provided"):
     await member.kick(reason=reason)
 
