@@ -1,3 +1,5 @@
+import os
+
 import discord
 from typing import NoReturn
 from discord.ext import commands
@@ -98,6 +100,9 @@ async def help(ctx):  # RIP python's builtin help function
     help_msg.add_field(name="!close", value="Closes the current question of the help channel and moves it to the "
                                             "available category")
 
+    help_msg.add_field(name="!kick <Member> <reason=\"no reason provided\">", value="Kicks a member with a reason, "
+                       "reason defaults to 'no reason provided'")
+
     help_msg.set_thumbnail(url="https://kivymd.readthedocs.io/en/latest/_static/logo-kivymd.png")
 
     help_msg.set_footer(text="Note that the angular brackets '<>' are just for demonstration, do not use them while "
@@ -123,4 +128,14 @@ async def close(ctx):
         await msg.unpin()
 
 
-BOT.run('OTMzNzI3MTk1OTg4MzYxMzQ2.YelvNw.RMUxhqVf4KPbOSy4mPboxw1qmLU')
+@commands.has_any_role("Kivymd Team")
+async def ban(ctx, member: discord.Member, reason="no reason provided"):
+    await member.ban(reason=reason)
+
+
+@commands.has_any_role("Kivymd Team")
+async def kick(ctx, member: discord.Member, reason="no reason provided"):
+    await member.kick(reason=reason)
+
+
+BOT.run(os.environ["TOKEN"])
