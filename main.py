@@ -128,7 +128,7 @@ async def kick(ctx, member: discord.Member, reason="no reason provided"):
 
 
 @BOT.command(name="docs")
-async def docs(ctx, target):
+async def docs(ctx, target, flags=""):
     doc_links = [
         "https://kivymd.readthedocs.io/en/latest/themes/",
         "https://kivymd.readthedocs.io/en/latest/components/anchorlayout/",
@@ -194,8 +194,14 @@ async def docs(ctx, target):
     ]
 
     pages = [link.split("/").pop()[-1] for link in doc_links]
+    if "--debug" in flags:
+        await ctx.channel.send(pages)
 
     probability = []
+
+    if "--debug" in flags:
+        await ctx.channel.send(probability)
+
     for word in pages:
         probab = 0
         for char in word:
