@@ -201,9 +201,9 @@ async def docs(ctx, target, flags=""):
         if page == target:
             await ctx.channel.send(doc_links[pages.index(page)])
             docs_found = True
+            break
         else:
             docs_found = False
-            break
 
     if not docs_found:
         await ctx.channel.send(f"Sorry, I couldn't find the documentation of the target '{target}'")
