@@ -191,6 +191,7 @@ async def docs(ctx, target, flags=""):
         "https://kivymd.readthedocs.io/en/latest/templates/rotatewidget",
         "https://kivymd.readthedocs.io/en/latest/templates/scalewidget",
         "https://kivymd.readthedocs.io/en/latest/templates/stencilwidget",
+        "https://kivymd.readthedocs.io/en/latest/components/sliverappbar"
     ]
 
     pages = [link.split('/')[-1] for link in doc_links]
