@@ -193,24 +193,11 @@ async def docs(ctx, target, flags=""):
         "https://kivymd.readthedocs.io/en/latest/templates/stencilwidget",
     ]
 
-    pages = [link.split("/")[-1] for link in doc_links]
-    if "--debug" in flags:
-        await ctx.channel.send(pages)
+    pages = [link.split('/')[-1] for link in doc_links]
 
-    probability = []
-
-    if "--debug" in flags:
-        await ctx.channel.send(probability)
-
-    for word in pages:
-        probab = 0
-        for char in word:
-            if char in target:
-                probab += 1
-
-        probability.append(probab)
-
-    await ctx.channel.send(doc_links[probability.index(max(probability))])
+    for page in pages:
+        if page == target:
+            await ctx.channel.send(doc_links[pages.index(page)])
 
 
 BOT.run(os.environ["TOKEN"])
