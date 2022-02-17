@@ -198,7 +198,7 @@ async def docs(ctx, target, flags=""):
     docs_found = False
 
     for page in pages:
-        if page == target:
+        if page == target.lower():
             await ctx.channel.send(doc_links[pages.index(page)])
             docs_found = True
             break
