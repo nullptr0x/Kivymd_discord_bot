@@ -198,6 +198,8 @@ async def docs(ctx, target, flags=""):
     for page in pages:
         if page == target:
             await ctx.channel.send(doc_links[pages.index(page)])
+        else:
+            await ctx.channel.send(f"Sorry, but I can't find the docs of the target {target}")
 
 
 BOT.run(os.environ["TOKEN"])
