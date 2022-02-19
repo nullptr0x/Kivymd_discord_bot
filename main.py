@@ -16,6 +16,14 @@ async def on_message(message):
             await message.pin()
 
 
+@BOT.listen('on_message_delete')
+async def on_message_delete(message):
+    admins_only = BOT.get_channel(739776800871415858)
+    message_del_embed = discord.Embed(title=f"Message deleted in {message.channel.name}")
+    message_del_embed.add_field(name="Message content", value=message.content)
+    await admins_only.send(embed=message_del_embed)
+
+
 @BOT.listen("on_command_error")
 async def on_command_error(ctx, err):
     await ctx.channel.send(f"```\n{err}\n```")
@@ -115,7 +123,7 @@ async def close(ctx):
         await msg.unpin()
 
 
-@commands.has_any_role("Kivymd Team")
+@commands
 @BOT.command(name="ban")
 async def ban(ctx, member: discord.Member, reason="no reason provided"):
     await member.ban(reason=reason)
