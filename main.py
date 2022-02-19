@@ -123,13 +123,13 @@ async def close(ctx):
         await msg.unpin()
 
 
-@commands
+@commands.has_any_role("KivyMD Team")
 @BOT.command(name="ban")
 async def ban(ctx, member: discord.Member, reason="no reason provided"):
     await member.ban(reason=reason)
 
 
-@commands.has_any_role("Kivymd Team")
+@commands.has_any_role("KivyMD Team")
 @BOT.command(name="kick")
 async def kick(ctx, member: discord.Member, reason="no reason provided"):
     await member.kick(reason=reason)
